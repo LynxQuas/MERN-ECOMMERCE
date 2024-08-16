@@ -21,7 +21,7 @@ const UserContextProvider = ({ children }) => {
     );
 };
 
-export const useUserAction = () => {
+export const useUser = () => {
     return useContext(UserContext);
 };
 
