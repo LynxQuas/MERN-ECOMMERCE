@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-import { useUserAction } from "../context/UserContext";
+import { useUser } from "../context/UserContext";
 import InputError from "../components/form/InputError";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../libs/user";
@@ -12,7 +12,7 @@ const Login = () => {
     const { register, handleSubmit, formState, reset } = useForm();
     const { errors } = formState;
     const [loginError, setLoginError] = useState("");
-    const { setAuth } = useUserAction();
+    const { setAuth } = useUser();
 
     const navigate = useNavigate();
 

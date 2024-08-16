@@ -5,11 +5,11 @@ import NavLogo from "./NavLogo";
 import { Bars3Icon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import MobileNav from "./MobileNav";
-import { useUserAction } from "../../context/UserContext";
+import { useUser } from "../../context/UserContext";
 
 const Navbar = () => {
     const [openNav, setOpenNav] = useState(false);
-    const { auth, setAuth } = useUserAction();
+    const { auth, setAuth } = useUser();
 
     return (
         <nav className="flex transition-colors bg-white shadow-sm fixed w-full z-20 justify-between items-center py-7 px-10 md:px-20">
