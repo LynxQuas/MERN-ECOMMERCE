@@ -9,6 +9,7 @@ import ItemDetails from "./pages/ItemDetails";
 import Error from "./components/ui/Error";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import UserContextProvider from "./context/UserContext";
 
 const queryClient = new QueryClient();
 
@@ -38,7 +39,9 @@ const App = () => {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <RouterProvider router={router} />
+            <UserContextProvider>
+                <RouterProvider router={router} />
+            </UserContextProvider>
         </QueryClientProvider>
     );
 };
