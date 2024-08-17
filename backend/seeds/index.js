@@ -8,7 +8,6 @@ const main = async () => {
         console.log("Database connected!");
 
         // Run Seeders
-        await UserSeeder();
         await ProductSeeder();
         console.log(" Seeding completed");
     } catch (err) {
