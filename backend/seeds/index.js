@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { UserSeeder } = require("./UserSeeder");
 const { ProductSeeder } = require("./ProductSeeder");
 
 const main = async () => {
