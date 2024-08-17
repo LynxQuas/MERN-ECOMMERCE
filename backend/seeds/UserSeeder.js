@@ -9,42 +9,30 @@ const UserSeeder = async () => {
             {
                 firstName: "Emily",
                 lastName: "Brons",
-                password: "321",
+                password: "123456",
                 email: "emily@test.com",
+                role: "customer",
                 profileImage:
                     "https://mighty.tools/mockmind-api/content/human/44.jpg",
             },
             {
-                firstName: "La",
-                lastName: "Pyae",
-                password: "321",
+                firstName: "La Pyae",
+                lastName: "Hmue Aung",
+                password: "123456",
+                role: "customer",
                 email: "lapyae@test.com",
                 profileImage:
                     "https://mighty.tools/mockmind-api/content/human/5.jpg",
             },
+
             {
-                firstName: "Julia",
-                lastName: "Sun",
-                password: "321",
-                email: "julia@test.com",
+                firstName: "Admin",
+                lastName: "1",
+                password: "123456",
+                role: "admin",
+                email: "admin@test.com",
                 profileImage:
-                    "https://mighty.tools/mockmind-api/content/human/43.jpg",
-            },
-            {
-                firstName: "Timmy",
-                lastName: "Bruce",
-                password: "321",
-                email: "timmy@test.com",
-                profileImage:
-                    "https://mighty.tools/mockmind-api/content/human/9.jpg",
-            },
-            {
-                firstName: "Foo",
-                lastName: "jame",
-                password: "321",
-                email: "foo@test.com",
-                profileImage:
-                    "https://mighty.tools/mockmind-api/content/cartoon/7.jpg",
+                    "https://mighty.tools/mockmind-api/content/human/5.jpg",
             },
         ];
 

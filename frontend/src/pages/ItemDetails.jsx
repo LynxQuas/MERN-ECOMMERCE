@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import Spinner from "../components/ui/Spinner";
 import Error from "../components/ui/Error";
@@ -17,32 +17,43 @@ const ItemDetails = () => {
     const [selectedColor, setSelectedColor] = useState("");
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedQuantity, setSelectedQuantity] = useState(1);
+    const [sizeError, setSizeError] = useState("");
+    const [colorError, setColorError] = useState("");
 
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["product", productId],
         queryFn: () => getProductDetails(productId),
     });
 
-    const handleQuantityChange = (operation) => {
+    const {
+        imageUrl,
+        name,
+        price,
+        ratings = 0,
+        description,
+        colors = [],
+        sizes = [],
+    } = data || {};
+
+    const handleQuantityChange = useCallback((operation) => {
         setSelectedQuantity((prev) =>
             operation === "increase" ? prev + 1 : Math.max(prev - 1, 1)
         );
-    };
+    }, []);
 
-    const handleAddToCart = () => {
-        const orderData = {
-            _id: data._id,
-            name: data.name,
-            price: data.price,
-            color: selectedColor,
-            size: selectedSize,
-            quantity: selectedQuantity,
-            imageUrl: data.imageUrl,
-            status: "pending",
-        };
+    const handleAddToCart = useCallback(() => {
+        if (!selectedColor) {
+            setColorError("Please Select the color");
+            return;
+        }
 
-        console.log(orderData);
-    };
+        if (!selectedSize) {
+            setSizeError("Please Select the size");
+            return;
+        }
+
+        console.log("Ordered successfully.");
+    }, [selectedColor, selectedSize]);
 
     if (isLoading) return <Spinner />;
 
@@ -57,18 +68,16 @@ const ItemDetails = () => {
     return (
         <div className="flex flex-col gap-4 md:justify-center md:flex-row md:mx-10 my-2 md:px-5 md:bg-white rounded-3xl shadow-2xl md:p-10 center">
             <img
-                src={data?.imageUrl}
-                alt={data?.name}
+                src={imageUrl}
+                alt={name}
                 className="md:w-[50%] object-cover rounded-lg overflow-clip"
             />
 
             <div className="flex flex-col py-4 px-5 md:px-10 gap-4 grow">
                 <div className="flex items-center justify-between flex-wrap">
-                    <h1 className="text-xl md:text-2xl font-bold">
-                        {data?.name}
-                    </h1>
+                    <h1 className="text-xl md:text-2xl font-bold">{name}</h1>
                     <p className="font-semibold">
-                        ${data?.price}
+                        ${price}
                         <span className="ml-4 line-through text-gray-400">
                             $20.00
                         </span>
@@ -76,31 +85,41 @@ const ItemDetails = () => {
                 </div>
 
                 <div className="flex gap-4 items-center">
-                    <ProductRating rating={data?.ratings} />
-                    <span>({data.ratings})</span>
+                    <ProductRating rating={ratings} />
+                    <span>({ratings})</span>
                 </div>
 
-                <p>{data?.description}</p>
+                <p>{description}</p>
 
                 <hr />
 
                 <p>Select Color:</p>
                 <ColorSelector
-                    colors={data?.colors || []}
+                    colors={colors || []}
                     selectedColor={selectedColor}
-                    onSelectColor={(e) =>
-                        setSelectedColor(e.target.dataset.color)
-                    }
+                    onSelectColor={(e) => {
+                        setSelectedColor(e.target.dataset.color);
+                        setColorError("");
+                    }}
                 />
+                {colorError && (
+                    <span className="text-red-500">Please select Color.</span>
+                )}
 
                 <hr />
 
                 <p>Select Size:</p>
                 <SizeSelector
-                    sizes={data?.sizes || []}
+                    sizes={sizes}
                     selectedSize={selectedSize}
-                    onSelectSize={(e) => setSelectedSize(e.target.dataset.size)}
+                    onSelectSize={(e) => {
+                        setSelectedSize(e.target.dataset.size);
+                        setSizeError("");
+                    }}
                 />
+                {sizeError && (
+                    <span className="text-red-500">Please select size.</span>
+                )}
 
                 <ProductCTA
                     onAddToCart={handleAddToCart}

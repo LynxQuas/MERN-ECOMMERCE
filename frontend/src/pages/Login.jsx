@@ -4,7 +4,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import { useUser } from "../context/UserContext";
 import InputError from "../components/form/InputError";
 import { useMutation } from "@tanstack/react-query";
-import { login } from "../libs/user";
+import { login as fetchLogin } from "../libs/user";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
@@ -12,20 +12,20 @@ const Login = () => {
     const { register, handleSubmit, formState, reset } = useForm();
     const { errors } = formState;
     const [loginError, setLoginError] = useState("");
-    const { setAuth } = useUser();
+    const { login } = useUser();
 
     const navigate = useNavigate();
 
     const handleLogin = useMutation({
-        mutationFn: (data) => login(data),
+        mutationFn: (data) => fetchLogin(data),
         onSuccess: (data) => {
-            localStorage.setItem("userData", JSON.stringify(data));
-            setAuth(data);
+            login(data);
             reset();
-            navigate("/");
+            navigate(data.user.role === "admin" ? "/admin" : "/");
+            return;
         },
         onError: (data) => {
-            setLoginError(data.message);
+            setLoginError(data.message || "something went wrong");
         },
     });
 
@@ -72,9 +72,10 @@ const Login = () => {
                     <div className="flex w-full justify-between gap-10">
                         <Button
                             type="submit"
+                            disabled={handleLogin.isPending}
                             className="bg-purple-500 grow shadow-md shadow-purple-500 rounded-md font-semibold text-white py-3 px-4"
                         >
-                            Login
+                            {handleLogin.isPending ? "Logging in..." : "Login"}
                         </Button>
                         <Link
                             to="/register"

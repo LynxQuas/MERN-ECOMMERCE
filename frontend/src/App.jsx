@@ -35,6 +35,8 @@ const App = () => {
                 },
             ],
         },
+
+        { path: "/admin", element: <h1>Admin page</h1> },
     ]);
 
     return (

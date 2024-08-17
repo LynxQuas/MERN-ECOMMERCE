@@ -5,7 +5,10 @@ import InputError from "../components/form/InputError";
 import { useMutation } from "@tanstack/react-query";
 import { register as userRegister } from "../libs/user";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
+import { useCallback, useState } from "react";
+
+import placeholderImage from "../assets/placeholder.jpg";
+
 const Register = () => {
     const { register, handleSubmit, getValues, formState, reset } = useForm();
     const [registerError, setRegisterError] = useState("");
@@ -24,9 +27,19 @@ const Register = () => {
         },
     });
 
-    const onRegister = (data) => {
-        handleRegister.mutate(data);
-    };
+    console.log(handleRegister);
+
+    const onRegister = useCallback(
+        (data) => {
+            const updatedData = {
+                ...data,
+                profileImage: placeholderImage,
+                role: "admin",
+            };
+            handleRegister.mutate(updatedData);
+        },
+        [handleRegister]
+    );
 
     return (
         <div className="flex flex-col items-center justify-center min-h-[70%] bg-gray-100 py-4 my-20">
@@ -122,6 +135,7 @@ const Register = () => {
 
                         <Button
                             type="submit"
+                            disabled={handleRegister.isPending}
                             className="bg-purple-500 grow shadow-md shadow-purple-500 rounded-md font-semibold text-white py-3 px-4"
                         >
                             Register

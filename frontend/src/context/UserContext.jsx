@@ -9,11 +9,23 @@ const UserContextProvider = ({ children }) => {
             : null;
     });
 
+    const login = (userData) => {
+        localStorage.setItem("userData", JSON.stringify(userData));
+        setAuth(userData);
+    };
+
+    const logout = () => {
+        localStorage.removeItem("userData");
+        setAuth(null);
+    };
+
     return (
         <UserContext.Provider
             value={{
                 auth,
                 setAuth,
+                login,
+                logout,
             }}
         >
             {children}

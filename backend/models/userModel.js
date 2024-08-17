@@ -29,6 +29,11 @@ const userSchema = mongoose.Schema({
 
     profileImage: String,
 
+    role: {
+        type: String,
+        required: true,
+    },
+
     cart: [
         {
             type: mongoose.Schema.ObjectId,
