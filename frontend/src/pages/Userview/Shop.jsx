@@ -1,15 +1,15 @@
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import FeatureItems from "../components/Shop/FeatureItems";
-import ItemList from "../components/Shop/ItemList";
-import ShopCategory from "../components/Shop/ShopCategory";
+import FeatureItems from "../../components/Shop/FeatureItems";
+import ItemList from "../../components/Shop/ItemList";
+import ShopCategory from "../../components/Shop/ShopCategory";
 
-import Sidebar from "../components/Shop/Sidebar";
+import Sidebar from "../../components/Shop/Sidebar";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "../libs/product";
-import ItemCard from "../components/Shop/ItemCard";
-import Spinner from "../components/ui/Spinner";
-import Error from "../components/ui/Error";
+import { getAllProducts } from "../../libs/product";
+import ItemCard from "../../components/Shop/ItemCard";
+import Spinner from "../../components/ui/Spinner";
+import Error from "../../components/ui/Error";
 
 const Shop = () => {
     const navigate = useNavigate();

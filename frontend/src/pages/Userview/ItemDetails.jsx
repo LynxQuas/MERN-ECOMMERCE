@@ -2,15 +2,15 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import { useCallback, useState } from "react";
 
-import Spinner from "../components/ui/Spinner";
-import Error from "../components/ui/Error";
-import ProductCTA from "../components/Shop/ProductCTA";
-import ColorSelector from "../components/Shop/ColorSelector";
-import ProductRating from "../components/Shop/ProductRating";
-import SizeSelector from "../components/Shop/SizeSelector";
+import Spinner from "../../components/ui/Spinner";
+import Error from "../../components/ui/Error";
+import ProductCTA from "../../components/Shop/ProductCTA";
+import ColorSelector from "../../components/Shop/ColorSelector";
+import ProductRating from "../../components/Shop/ProductRating";
+import SizeSelector from "../../components/Shop/SizeSelector";
 
-import { getProductDetails } from "../libs/product";
-import Button from "../components/ui/Button";
+import { getProductDetails } from "../../libs/product";
+import Button from "../../components/ui/Button";
 
 const ItemDetails = () => {
     const { productId } = useParams();

@@ -4,17 +4,24 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import AppLayout from "./pages/AppLayout";
-import Home from "./pages/Home";
-import Shop from "./pages/Shop";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import ItemDetails from "./pages/ItemDetails";
+
 import Error from "./components/ui/Error";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserContextProvider from "./context/UserContext";
-import AdminLayout from "./pages/AdminLayout";
+import Home from "./pages/Userview/Home";
+import Shop from "./pages/Userview/Shop";
+import ItemDetails from "./pages/Userview/ItemDetails";
+import About from "./pages/Userview/About";
+import Contact from "./pages/Userview/Contact";
+import AdminLayout from "./pages/Layouts/AdminLayout";
+import AppLayout from "./pages/Layouts/AppLayout";
+
+import Overview from "./pages/Adminviews/Overview";
+import Orders from "./pages/Adminviews/Orders";
+import Customers from "./pages/Adminviews/Customers";
+import Products from "./pages/Adminviews/Products";
+import CreateProduct from "./pages/Adminviews/CreateProduct";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +39,8 @@ const App = () => {
                 },
                 { path: "/about", element: <About /> },
                 { path: "/contact", element: <Contact /> },
+                { path: "/wishlist", element: <h1>Wishlists Page</h1> },
+                { path: "/profile", element: <h1>Profile Page</h1> },
                 { path: "/login", element: <Login /> },
                 { path: "/register", element: <Register /> },
             ],
@@ -45,10 +54,14 @@ const App = () => {
                     index: true,
                     element: <Navigate to="overview" replace />,
                 },
-                { path: "overview", element: <h1>Overview</h1> },
-                { path: "orders", element: <h1>Orders Page</h1> },
-                { path: "customers", element: <h1>Customers Page</h1> },
-                { path: "products", element: <h1>Products Page</h1> },
+                { path: "overview", element: <Overview /> },
+                { path: "orders", element: <Orders /> },
+                { path: "customers", element: <Customers /> },
+                { path: "products", element: <Products /> },
+                {
+                    path: "create-product",
+                    element: <CreateProduct />,
+                },
             ],
         },
 

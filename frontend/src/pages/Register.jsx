@@ -15,6 +15,8 @@ const Register = () => {
     const { errors } = formState;
     const navigate = useNavigate();
 
+    const testRole = "user";
+
     const handleRegister = useMutation({
         mutationFn: (data) => userRegister(data),
         onSuccess: () => {
@@ -27,14 +29,12 @@ const Register = () => {
         },
     });
 
-    console.log(handleRegister);
-
     const onRegister = useCallback(
         (data) => {
             const updatedData = {
                 ...data,
                 profileImage: placeholderImage,
-                role: "admin",
+                role: testRole,
             };
             handleRegister.mutate(updatedData);
         },

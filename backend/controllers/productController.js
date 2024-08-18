@@ -19,7 +19,42 @@ const getProduct = async (req, res) => {
     }
 };
 
+const createProduct = async (req, res) => {
+    const {
+        name,
+        price,
+        imageUrl,
+        category,
+        onSale,
+        sizes,
+        colors,
+        salePrice,
+    } = req.body;
+
+    console.log(req.body);
+
+    if (!name || !price || !imageUrl || !category || !sizes || !colors) {
+        return res
+            .status(400)
+            .json({ message: "Invalid request inputs need to fill." });
+    }
+
+    if (onSale && !salePrice) {
+        return res.status(400).json({ message: "Sale price must be include." });
+    }
+
+    try {
+        const createdProduct = new Product(req.body);
+        await createdProduct.save();
+
+        res.status(201).json({ message: "Product Created Successfully." });
+    } catch (err) {
+        res.status(500).json({ message: "Something went wrong." });
+    }
+};
+
 module.exports = {
     getAllProducts,
     getProduct,
+    createProduct,
 };
