@@ -1,4 +1,8 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+    createBrowserRouter,
+    Navigate,
+    RouterProvider,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AppLayout from "./pages/AppLayout";
 import Home from "./pages/Home";
@@ -10,6 +14,7 @@ import Error from "./components/ui/Error";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserContextProvider from "./context/UserContext";
+import AdminLayout from "./pages/AdminLayout";
 
 const queryClient = new QueryClient();
 
@@ -29,14 +34,28 @@ const App = () => {
                 { path: "/contact", element: <Contact /> },
                 { path: "/login", element: <Login /> },
                 { path: "/register", element: <Register /> },
-                {
-                    path: "*",
-                    element: <Error text={"Sorry Page Does Not Exist."} />,
-                },
             ],
         },
 
-        { path: "/admin", element: <h1>Admin page</h1> },
+        {
+            path: "/admin",
+            element: <AdminLayout />,
+            children: [
+                {
+                    index: true,
+                    element: <Navigate to="overview" replace />,
+                },
+                { path: "overview", element: <h1>Overview</h1> },
+                { path: "orders", element: <h1>Orders Page</h1> },
+                { path: "customers", element: <h1>Customers Page</h1> },
+                { path: "products", element: <h1>Products Page</h1> },
+            ],
+        },
+
+        {
+            path: "*",
+            element: <Error text={"Sorry Page Does Not Exist."} />,
+        },
     ]);
 
     return (

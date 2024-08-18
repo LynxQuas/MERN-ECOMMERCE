@@ -1,11 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { mainNav } from "../../constants";
+
 import { cn } from "../../utils/clsx";
 
-const NavList = ({ className, onCloseNav }) => {
+const NavList = ({ className, onCloseNav, navlists = [] }) => {
     return (
         <ul className={className}>
-            {mainNav.map((nav) => (
+            {navlists.map((nav) => (
                 <li key={nav.link} onClick={onCloseNav}>
                     <NavLink
                         to={nav.link}

@@ -15,3 +15,10 @@ export const categories = [
     { name: "New Arrivals", link: "new-arrivals" },
     { name: "Best Sellers", link: "best-sellers" },
 ];
+
+export const adminNav = [
+    { name: "Overview", link: "overview" },
+    { name: "Products", link: "products" },
+    { name: "Orders", link: "orders" },
+    { name: "Customers", link: "customers" },
+];

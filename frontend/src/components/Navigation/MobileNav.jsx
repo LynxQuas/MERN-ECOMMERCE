@@ -1,7 +1,7 @@
 import NavList from "./NavList";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
-const MobileNav = ({ onCloseNav }) => {
+const MobileNav = ({ onCloseNav, navlists }) => {
     return (
         <div className="fixed inset-0 z-20 flex">
             {/* Overlay */}
@@ -21,6 +21,7 @@ const MobileNav = ({ onCloseNav }) => {
                 <NavList
                     className="flex  flex-col gap-7 text-xl px-4 py-20"
                     onCloseNav={onCloseNav}
+                    navlists={navlists}
                 />
             </div>
         </div>

@@ -8,6 +8,7 @@ import MobileNav from "./MobileNav";
 import { useUser } from "../../context/UserContext";
 import UserProfile from "../User/UserProfile";
 import CartContainer from "../Cart/CartContainer";
+import { mainNav } from "../../constants";
 
 const Navbar = () => {
     const [openNav, setOpenNav] = useState(false);
@@ -24,7 +25,10 @@ const Navbar = () => {
 
             <NavLogo />
 
-            <NavList className="hidden gap-5 items-center md:flex" />
+            <NavList
+                className="hidden gap-5 items-center md:flex"
+                navlists={mainNav}
+            />
 
             <div className="flex gap-4 items-center">
                 <ShoppingCartIcon
@@ -44,6 +48,7 @@ const Navbar = () => {
                 <MobileNav
                     openNav={openNav}
                     onCloseNav={() => setOpenNav(false)}
+                    navlists={mainNav}
                 />
             )}
 
