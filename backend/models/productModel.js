@@ -53,6 +53,11 @@ const productSchema = mongoose.Schema({
         default: 0,
     },
 
+    isFeature: {
+        type: Boolean,
+        default: false,
+    },
+
     ratings: {
         type: Number,
         default: 0,

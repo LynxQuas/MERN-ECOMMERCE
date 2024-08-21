@@ -4,6 +4,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Toaster } from "react-hot-toast";
 
 import Error from "./components/ui/Error";
 import Login from "./pages/Login";
@@ -22,6 +23,7 @@ import Orders from "./pages/Adminviews/Orders";
 import Customers from "./pages/Adminviews/Customers";
 import Products from "./pages/Adminviews/Products";
 import CreateProduct from "./pages/Adminviews/CreateProduct";
+import ProductForm from "./components/admin/ProductForm";
 
 const queryClient = new QueryClient();
 
@@ -62,6 +64,10 @@ const App = () => {
                     path: "create-product",
                     element: <CreateProduct />,
                 },
+                {
+                    path: "create-product/:productId",
+                    element: <ProductForm isUpdating={true} />,
+                },
             ],
         },
 
@@ -76,6 +82,20 @@ const App = () => {
             <UserContextProvider>
                 <RouterProvider router={router} />
             </UserContextProvider>
+            <Toaster
+                position="top-center"
+                gutter={12}
+                containerStyle={{ margin: "8px" }}
+                toastOptions={{
+                    success: { duration: 3000 },
+                    error: { duration: 5000 },
+                    style: {
+                        fontSize: "16px",
+                        maxWidth: "500px",
+                        padding: "16px 24px",
+                    },
+                }}
+            />
         </QueryClientProvider>
     );
 };

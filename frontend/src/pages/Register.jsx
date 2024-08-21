@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { useCallback, useState } from "react";
 
 import placeholderImage from "../assets/placeholder.jpg";
+import toast from "react-hot-toast";
 
 const Register = () => {
     const { register, handleSubmit, getValues, formState, reset } = useForm();
@@ -20,6 +21,7 @@ const Register = () => {
     const handleRegister = useMutation({
         mutationFn: (data) => userRegister(data),
         onSuccess: () => {
+            toast.success("Register successfully.");
             navigate("/login");
             reset();
         },

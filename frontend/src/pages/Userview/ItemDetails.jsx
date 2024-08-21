@@ -29,6 +29,8 @@ const ItemDetails = () => {
         imageUrl,
         name,
         price,
+        salePrice,
+        onSale,
         ratings = 0,
         description,
         colors = [],
@@ -77,10 +79,12 @@ const ItemDetails = () => {
                 <div className="flex items-center justify-between flex-wrap">
                     <h1 className="text-xl md:text-2xl font-bold">{name}</h1>
                     <p className="font-semibold">
-                        ${price}
-                        <span className="ml-4 line-through text-gray-400">
-                            $20.00
-                        </span>
+                        ${salePrice || price}
+                        {onSale && (
+                            <span className="ml-4 line-through text-gray-400">
+                                $${price}
+                            </span>
+                        )}
                     </p>
                 </div>
 

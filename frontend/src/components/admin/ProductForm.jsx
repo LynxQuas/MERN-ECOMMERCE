@@ -1,7 +1,10 @@
 import { useForm } from "react-hook-form";
 import ProductInputError from "./ProductInputError";
-import { useMutation } from "@tanstack/react-query";
-import { createProduct } from "../../libs/product";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { createOrUpdateProduct, getProductDetails } from "../../libs/product";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 
 const categories = [
     "men",
@@ -15,13 +18,49 @@ const categories = [
 
 const sizes = ["XS", "S", "M", "L", "XL"];
 
-const ProductForm = () => {
-    const { register, handleSubmit, watch, getValues, formState } = useForm();
+const ProductForm = ({ isUpdating = false }) => {
+    const { productId } = useParams();
+
+    const navigate = useNavigate();
+
+    const { data } = useQuery({
+        queryKey: ["product", productId],
+        queryFn: () => getProductDetails(productId),
+        enabled: isUpdating,
+    });
+
+    const { register, reset, handleSubmit, watch, getValues, formState } =
+        useForm({
+            defaultValues: data,
+        });
+
+    console.log(data);
+
+    useEffect(() => {
+        if (data) {
+            reset({
+                productId: data._id || "",
+                name: data.name || "",
+                price: data.price || 0,
+                imageUrl: data.imageUrl || "",
+                description: data.description || "",
+                category: data.category || "all",
+                onSale: data.onSale || false,
+                salePrice: data.salePrice || "",
+                isFeature: data.isFeature || false,
+                sizes: data.sizes || [],
+                colors: data.colors.join(", ") || "",
+            });
+        }
+    }, [data, reset]);
+
     const { mutate, isPending } = useMutation({
-        mutationFn: (data) => createProduct(data),
-        onSuccess: (data) => {
-            console.log(data);
-            alert("Success");
+        mutationFn: (data) => createOrUpdateProduct(data, isUpdating),
+        onSuccess: () => {
+            toast.success(
+                `${isUpdating ? "Updated" : "Created"} successfully.`
+            );
+            navigate("/admin/products");
         },
         onError: (err) => {
             console.log(err);
@@ -53,12 +92,13 @@ const ProductForm = () => {
             />
             {errors.name && <ProductInputError message={errors.name.message} />}
             <input
-                type="number"
+                type="text"
                 className="border border-gray-300 rounded-md py-3 px-4 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 placeholder="Price"
                 {...register("price", {
                     required: "Price is required",
-                    validate: (value) => value > 0 || "Price must be positive",
+                    validate: (value) =>
+                        Number(value) > 0 || "Price must be positive",
                 })}
             />
             {errors.price && (
@@ -138,6 +178,21 @@ const ProductForm = () => {
             {errors.salePrice && (
                 <ProductInputError message={errors.salePrice.message} />
             )}
+
+            <div className="flex items-center gap-2 w-1/2">
+                <input
+                    type="checkbox"
+                    {...register("isFeature")}
+                    id="isFeature"
+                    className="form-checkbox h-5 w-5 text-purple-600 border-gray-300 rounded focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                />
+                <label
+                    htmlFor="isFeature"
+                    className="text-gray-700 font-medium"
+                >
+                    Feature
+                </label>
+            </div>
 
             <div className="border border-gray-300 rounded-md p-4 space-y-2">
                 <span className="text-gray-700 font-medium">Sizes:</span>

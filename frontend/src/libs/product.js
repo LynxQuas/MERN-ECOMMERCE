@@ -10,14 +10,34 @@ export const getProductDetails = async (productId) => {
     return res.json();
 };
 
-export const createProduct = async (productData) => {
-    const res = await fetch(`${API}`, {
-        method: "POST",
+export const createOrUpdateProduct = async (productData, isUpdate = false) => {
+    console.log(productData);
+    const url = isUpdate ? `${API}/${productData.productId}` : `${API}`;
+    const method = isUpdate ? "PUT" : "POST";
+
+    const res = await fetch(url, {
+        method,
         body: JSON.stringify(productData),
         headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
         },
     });
 
+    if (!res.ok) {
+        throw new Error("Something went wrong. Please try again.");
+    }
+
     return res.json();
+};
+
+export const deleteProduct = async (productId) => {
+    const res = await fetch(`${API}/${productId}`, {
+        method: "DELETE",
+    });
+
+    if (res.ok) {
+        return res.json();
+    }
+
+    throw new Error("Could not delete product.Please try again.");
 };
