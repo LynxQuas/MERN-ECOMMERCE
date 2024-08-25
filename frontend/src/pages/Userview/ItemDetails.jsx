@@ -1,16 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
+import { useUser } from "../../context/UserContext";
+
+import { addToWishlist, removeWishlistItem } from "../../libs/user";
+import { getProductDetails } from "../../libs/product";
+
+import Button from "../../components/ui/Button";
 import Spinner from "../../components/ui/Spinner";
 import Error from "../../components/ui/Error";
 import ProductCTA from "../../components/Shop/ProductCTA";
 import ColorSelector from "../../components/Shop/ColorSelector";
 import ProductRating from "../../components/Shop/ProductRating";
 import SizeSelector from "../../components/Shop/SizeSelector";
-
-import { getProductDetails } from "../../libs/product";
-import Button from "../../components/ui/Button";
 
 const ItemDetails = () => {
     const { productId } = useParams();
@@ -25,7 +29,12 @@ const ItemDetails = () => {
         queryFn: () => getProductDetails(productId),
     });
 
+    const queryClient = useQueryClient();
+    const { auth, setAuth } = useUser();
+    const [isInWishlist, setIsInWishlist] = useState(false);
+
     const {
+        _id,
         imageUrl,
         name,
         price,
@@ -36,6 +45,44 @@ const ItemDetails = () => {
         colors = [],
         sizes = [],
     } = data || {};
+
+    const { mutate: addToWishlistMutation } = useMutation({
+        mutationFn: (wishlistData) => addToWishlist(wishlistData),
+        onSuccess: (data) => {
+            setAuth((prevAuth) => ({
+                ...prevAuth,
+                user: data.user,
+            }));
+
+            queryClient.invalidateQueries({
+                queryKey: ["user", auth.user._id],
+            });
+            toast.success(data.message);
+            setIsInWishlist(true);
+        },
+        onError: (err) => {
+            toast.error(err.message || "Failed to add wishlist.");
+        },
+    });
+
+    const { mutate: removeFromWishlistMutation } = useMutation({
+        mutationFn: (wishlistData) => removeWishlistItem(wishlistData),
+        onSuccess: (data) => {
+            setAuth((prevAuth) => ({
+                ...prevAuth,
+                user: data.user,
+            }));
+
+            queryClient.invalidateQueries({
+                queryKey: ["user", auth.user._id],
+            });
+            toast.success(data.message);
+            setIsInWishlist(false);
+        },
+        onError: (err) => {
+            toast.error(err.message || "Failed to remove item from wishlist.");
+        },
+    });
 
     const handleQuantityChange = useCallback((operation) => {
         setSelectedQuantity((prev) =>
@@ -57,6 +104,51 @@ const ItemDetails = () => {
         console.log("Ordered successfully.");
     }, [selectedColor, selectedSize]);
 
+    const handleWishlistToggle = () => {
+        if (isInWishlist) {
+            removeFromWishlistMutation({
+                productId: _id,
+                userId: auth.user._id,
+            });
+        } else {
+            addToWishlistMutation({ productId: _id, userId: auth.user._id });
+        }
+    };
+
+    let addToCartSection;
+
+    if (auth?.user && auth?.user?.role !== "admin") {
+        addToCartSection = (
+            <div className="flex flex-col gap-4 mt-4">
+                <ProductCTA
+                    onAddToCart={handleAddToCart}
+                    onMinus={() => handleQuantityChange("decrease")}
+                    onPlus={() => handleQuantityChange("increase")}
+                    selectedQuantity={selectedQuantity}
+                />
+
+                {auth?.user && (
+                    <Button
+                        onClick={handleWishlistToggle}
+                        className={`w-full py-3 rounded-md font-semibold transition duration-300 ${
+                            isInWishlist
+                                ? "bg-red-600 text-white hover:bg-red-700"
+                                : "bg-purple-600 text-white hover:bg-purple-700"
+                        }`}
+                    >
+                        {isInWishlist
+                            ? "REMOVE FROM WISHLIST"
+                            : "ADD TO WISHLIST"}
+                    </Button>
+                )}
+            </div>
+        );
+    }
+
+    useEffect(() => {
+        setIsInWishlist(auth?.user?.wishlist?.includes(_id));
+    }, [auth, _id]);
+
     if (isLoading) return <Spinner />;
 
     if (isError)
@@ -68,72 +160,75 @@ const ItemDetails = () => {
         );
 
     return (
-        <div className="flex flex-col gap-4 md:justify-center md:flex-row md:mx-10 my-2 md:px-5 md:bg-white rounded-3xl shadow-2xl md:p-10 center">
-            <img
-                src={imageUrl}
-                alt={name}
-                className="md:w-[50%] object-cover rounded-lg overflow-clip"
-            />
+        <div className="flex flex-col md:flex-row gap-6 md:gap-12 p-6 md:p-10 bg-white rounded-lg shadow-lg">
+            <div className="relative flex-1">
+                <img
+                    src={imageUrl}
+                    alt={name}
+                    className="w-[37rem] md:h-[80vh] object-cover rounded-lg shadow-md transition-transform transform hover:scale-105"
+                />
+            </div>
 
-            <div className="flex flex-col py-4 px-5 md:px-10 gap-4 grow">
-                <div className="flex items-center justify-between flex-wrap">
-                    <h1 className="text-xl md:text-2xl font-bold">{name}</h1>
-                    <p className="font-semibold">
-                        ${salePrice || price}
+            <div className="flex-1 flex flex-col gap-4">
+                <h1 className="text-2xl font-bold text-gray-800">{name}</h1>
+                <div className="flex items-center gap-2">
+                    <ProductRating rating={ratings} />
+                    <span className="text-gray-600">({ratings})</span>
+                </div>
+                <p className="text-lg text-gray-700">{description}</p>
+
+                <div className="flex flex-col gap-4 mt-4">
+                    <div className="flex items-center justify-between">
+                        <span className="text-xl font-semibold text-gray-800">
+                            ${salePrice || price}
+                        </span>
                         {onSale && (
-                            <span className="ml-4 line-through text-gray-400">
-                                $${price}
+                            <span className="text-gray-500 line-through">
+                                ${price}
                             </span>
                         )}
-                    </p>
+                    </div>
+
+                    <div>
+                        <p className="font-semibold text-gray-800 mb-2">
+                            Select Color:
+                        </p>
+                        <ColorSelector
+                            colors={colors}
+                            selectedColor={selectedColor}
+                            onSelectColor={(e) => {
+                                setSelectedColor(e.target.dataset.color);
+                                setColorError("");
+                            }}
+                        />
+                        {colorError && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {colorError}
+                            </p>
+                        )}
+                    </div>
+
+                    <div>
+                        <p className="font-semibold text-gray-800 mb-2">
+                            Select Size:
+                        </p>
+                        <SizeSelector
+                            sizes={sizes}
+                            selectedSize={selectedSize}
+                            onSelectSize={(e) => {
+                                setSelectedSize(e.target.dataset.size);
+                                setSizeError("");
+                            }}
+                        />
+                        {sizeError && (
+                            <p className="text-red-500 text-sm mt-1">
+                                {sizeError}
+                            </p>
+                        )}
+                    </div>
+
+                    {addToCartSection}
                 </div>
-
-                <div className="flex gap-4 items-center">
-                    <ProductRating rating={ratings} />
-                    <span>({ratings})</span>
-                </div>
-
-                <p>{description}</p>
-
-                <hr />
-
-                <p>Select Color:</p>
-                <ColorSelector
-                    colors={colors || []}
-                    selectedColor={selectedColor}
-                    onSelectColor={(e) => {
-                        setSelectedColor(e.target.dataset.color);
-                        setColorError("");
-                    }}
-                />
-                {colorError && (
-                    <span className="text-red-500">Please select Color.</span>
-                )}
-
-                <hr />
-
-                <p>Select Size:</p>
-                <SizeSelector
-                    sizes={sizes}
-                    selectedSize={selectedSize}
-                    onSelectSize={(e) => {
-                        setSelectedSize(e.target.dataset.size);
-                        setSizeError("");
-                    }}
-                />
-                {sizeError && (
-                    <span className="text-red-500">Please select size.</span>
-                )}
-
-                <ProductCTA
-                    onAddToCart={handleAddToCart}
-                    onMinus={() => handleQuantityChange("decrease")}
-                    onPlus={() => handleQuantityChange("increase")}
-                    selectedQuantity={selectedQuantity}
-                />
-                <Button className="border border-black p-2 rounded-md font-semibold">
-                    ADD TO WISHLIST
-                </Button>
             </div>
         </div>
     );

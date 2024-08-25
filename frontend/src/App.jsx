@@ -22,8 +22,10 @@ import Overview from "./pages/Adminviews/Overview";
 import Orders from "./pages/Adminviews/Orders";
 import Customers from "./pages/Adminviews/Customers";
 import Products from "./pages/Adminviews/Products";
-import CreateProduct from "./pages/Adminviews/CreateProduct";
 import ProductForm from "./components/admin/ProductForm";
+import PrivateRoute from "./pages/PrivateRoute";
+import RedirectIfAuthenticated from "./pages/RedirectIfAuthenticated";
+import Wishlist from "./pages/Userview/Wishlist";
 
 const queryClient = new QueryClient();
 
@@ -41,16 +43,34 @@ const App = () => {
                 },
                 { path: "/about", element: <About /> },
                 { path: "/contact", element: <Contact /> },
-                { path: "/wishlist", element: <h1>Wishlists Page</h1> },
-                { path: "/profile", element: <h1>Profile Page</h1> },
-                { path: "/login", element: <Login /> },
-                { path: "/register", element: <Register /> },
+                { path: "/wishlist", element: <Wishlist /> },
+
+                {
+                    path: "/login",
+                    element: (
+                        <RedirectIfAuthenticated>
+                            <Login />
+                        </RedirectIfAuthenticated>
+                    ),
+                },
+                {
+                    path: "/register",
+                    element: (
+                        <RedirectIfAuthenticated>
+                            <Register />
+                        </RedirectIfAuthenticated>
+                    ),
+                },
             ],
         },
 
         {
             path: "/admin",
-            element: <AdminLayout />,
+            element: (
+                <PrivateRoute>
+                    <AdminLayout />
+                </PrivateRoute>
+            ),
             children: [
                 {
                     index: true,
@@ -62,7 +82,7 @@ const App = () => {
                 { path: "products", element: <Products /> },
                 {
                     path: "create-product",
-                    element: <CreateProduct />,
+                    element: <ProductForm />,
                 },
                 {
                     path: "create-product/:productId",
@@ -83,7 +103,7 @@ const App = () => {
                 <RouterProvider router={router} />
             </UserContextProvider>
             <Toaster
-                position="top-center"
+                position="bottom-center"
                 gutter={12}
                 containerStyle={{ margin: "8px" }}
                 toastOptions={{

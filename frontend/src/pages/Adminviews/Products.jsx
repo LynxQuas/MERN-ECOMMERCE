@@ -49,8 +49,8 @@ const Products = () => {
     }
 
     return (
-        <div className="bg-gray-50 min-h-screen p-8">
-            <div className="max-w-3xl mx-auto">
+        <div className="bg-gray-50 min-h-screen p-8 flex justify-center w-full">
+            <div className="max-w-3xl w-full">
                 <div className="relative mb-6">
                     <input
                         className="bg-white py-3 px-12 rounded-full w-full shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500"

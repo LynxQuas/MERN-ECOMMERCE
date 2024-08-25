@@ -31,10 +31,12 @@ const Navbar = () => {
             />
 
             <div className="flex gap-4 items-center">
-                <ShoppingCartIcon
-                    onClick={() => setOpenCart(true)}
-                    className="h-6 w-6 text-black cursor-pointer"
-                />
+                {auth?.user && auth?.user?.role !== "admin" && (
+                    <ShoppingCartIcon
+                        onClick={() => setOpenCart(true)}
+                        className="h-6 w-6 text-black cursor-pointer"
+                    />
+                )}
                 {auth?.user ? (
                     <UserProfile />
                 ) : (

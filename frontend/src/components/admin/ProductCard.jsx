@@ -1,5 +1,6 @@
 import { MinusCircleIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 const ProductCard = ({
     name,
@@ -11,6 +12,9 @@ const ProductCard = ({
     category,
 }) => {
     const navigate = useNavigate();
+
+    const { auth } = useUser();
+
     return (
         <div className="flex p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
             <Link to={`/shop/${category}/${productId}`}>
@@ -23,7 +27,7 @@ const ProductCard = ({
                 </div>
             </Link>
 
-            <div className="flex flex-col justify-between flex-grow">
+            <div className="flex flex-col justify-between flex-grow shrink">
                 <div>
                     <h3 className="font-bold text-lg text-gray-800">{name}</h3>
                     <p className="text-gray-500 text-sm">Price: ${price}</p>
@@ -34,26 +38,27 @@ const ProductCard = ({
                     )}
                 </div>
             </div>
-
-            <div className="flex flex-col items-end justify-between space-y-2">
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        onDelete(productId);
-                    }}
-                    className="text-red-500 hover:text-red-700 transition-colors duration-300"
-                >
-                    <MinusCircleIcon className="w-7 h-7" />
-                </button>
-                <button
-                    onClick={() =>
-                        navigate(`/admin/create-product/${productId}`)
-                    }
-                    className="text-purple-500 hover:text-purple-700 transition-colors duration-300"
-                >
-                    <PencilSquareIcon className="w-7 h-7" />
-                </button>
-            </div>
+            {auth?.user?.role === "admin" && (
+                <div className="flex flex-col items-end justify-between space-y-2">
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete(productId);
+                        }}
+                        className="text-red-500 hover:text-red-700 transition-colors duration-300"
+                    >
+                        <MinusCircleIcon className="w-7 h-7" />
+                    </button>
+                    <button
+                        onClick={() =>
+                            navigate(`/admin/create-product/${productId}`)
+                        }
+                        className="text-purple-500 hover:text-purple-700 transition-colors duration-300"
+                    >
+                        <PencilSquareIcon className="w-7 h-7" />
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

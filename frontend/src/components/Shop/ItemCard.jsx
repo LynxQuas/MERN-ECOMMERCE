@@ -4,25 +4,28 @@ const ItemCard = ({ data }) => {
     return (
         <Link
             to={`${data._id}`}
-            className="flex flex-col gap-3 w-[12rem] mb-7 md:w-[20rem]"
+            className="flex flex-col gap-4 w-full md:w-[18rem] md:h-[28rem] bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
         >
-            <div className="w-full h-[12rem] md:h-[20rem] overflow-hidden rounded-lg relative">
+            <div className="relative">
                 <img
                     src={data.imageUrl}
                     alt={data.name}
-                    className="w-full h-full object-cover"
+                    className="w-full h-[20rem] object-cover rounded-t-lg transition-transform duration-300 transform hover:scale-105"
                 />
-
                 {data.onSale && (
-                    <div className="absolute text-sm font-semibold top-0 left-0 m-4 rounded-full px-4 py-1 bg-red-500 text-white">
-                        <span>On Sale</span>
+                    <div className="absolute top-4 left-4 bg-red-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md">
+                        On Sale
                     </div>
                 )}
             </div>
 
-            <div className="flex items-center justify-between flex-wrap px-2">
-                <h3 className="md:text-xl font-semibold">{data.name}</h3>
-                <p className="font-bold text-amber-500">${data.price}</p>
+            <div className="p-4 flex flex-col gap-2">
+                <h3 className="text-lg md:text-xl font-semibold text-gray-800 hover:text-purple-600 transition-colors duration-300">
+                    {data.name}
+                </h3>
+                <p className="font-bold text-amber-500 text-lg">
+                    ${data.price}
+                </p>
             </div>
         </Link>
     );

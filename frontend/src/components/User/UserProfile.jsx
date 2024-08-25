@@ -49,19 +49,6 @@ const UserProfile = () => {
                             <>
                                 <li
                                     onClick={() => {
-                                        navigate("/profile");
-                                        setShowDropDown(false);
-                                    }}
-                                    className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-2 rounded-md"
-                                >
-                                    <UserCircleIcon className="w-5 h-5 text-gray-600" />
-                                    <span className="text-gray-700">
-                                        Profile
-                                    </span>
-                                </li>
-
-                                <li
-                                    onClick={() => {
                                         navigate("/wishlist");
                                         setShowDropDown(false);
                                     }}

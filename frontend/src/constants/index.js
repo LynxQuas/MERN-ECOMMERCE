@@ -9,11 +9,7 @@ export const categories = [
     { name: "All", link: "all" },
     { name: "Men", link: "men" },
     { name: "Women", link: "women" },
-    { name: "Footwear", link: "footwear" },
-    { name: "Accessories", link: "accessories" },
-    { name: "Sale", link: "sale" },
-    { name: "New Arrivals", link: "new-arrivals" },
-    { name: "Best Sellers", link: "best-sellers" },
+    { name: "Children", link: "children" },
 ];
 
 export const adminNav = [

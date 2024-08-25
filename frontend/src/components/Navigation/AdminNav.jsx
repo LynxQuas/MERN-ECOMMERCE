@@ -7,8 +7,9 @@ import MobileNav from "./MobileNav";
 
 const AdminNav = () => {
     const [openNavMenu, setOpenNavMenu] = useState(false);
+
     return (
-        <nav className="py-6 px-6 shadow-md flex items-center justify-between md:hidden">
+        <nav className="py-6 px-6 shadow-md flex items-center justify-between md:flex lg:hidden">
             <div className="flex items-center">
                 <Bars3Icon
                     className="w-10 h-10"

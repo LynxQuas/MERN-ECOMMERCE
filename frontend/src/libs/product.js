@@ -11,7 +11,6 @@ export const getProductDetails = async (productId) => {
 };
 
 export const createOrUpdateProduct = async (productData, isUpdate = false) => {
-    console.log(productData);
     const url = isUpdate ? `${API}/${productData.productId}` : `${API}`;
     const method = isUpdate ? "PUT" : "POST";
 
@@ -41,3 +40,4 @@ export const deleteProduct = async (productId) => {
 
     throw new Error("Could not delete product.Please try again.");
 };
+

@@ -31,8 +31,6 @@ const createProduct = async (req, res) => {
         salePrice,
     } = req.body;
 
-    console.log(req.body);
-
     if (!name || !price || !imageUrl || !category || !sizes || !colors) {
         return res
             .status(400)
@@ -49,6 +47,7 @@ const createProduct = async (req, res) => {
 
         res.status(201).json({ message: "Product Created Successfully." });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: "Something went wrong." });
     }
 };
@@ -80,19 +79,16 @@ const updateProduct = async (req, res) => {
         onSale,
         sizes,
         colors,
+        isFeature,
         salePrice,
     } = req.body;
 
-    console.log(req.body);
-
-    // Validate required fields
     if (!name || !price || !imageUrl || !category || !sizes || !colors) {
         return res
             .status(400)
             .json({ message: "Invalid request. All fields are required." });
     }
 
-    // Validate sale price if onSale is true
     if (onSale && (!salePrice || salePrice >= price)) {
         return res.status(400).json({
             message: "Sale price must be less than the regular price.",
@@ -100,7 +96,6 @@ const updateProduct = async (req, res) => {
     }
 
     try {
-        // Update product
         const updatedProduct = await Product.findByIdAndUpdate(
             productId,
             {
@@ -111,9 +106,10 @@ const updateProduct = async (req, res) => {
                 onSale,
                 sizes,
                 colors,
-                ...(onSale && { salePrice }), // Only include salePrice if onSale is true
+                isFeature,
+                ...(onSale && { salePrice }),
             },
-            { new: true, runValidators: true } // Return the updated document
+            { new: true, runValidators: true }
         );
 
         if (!updatedProduct) {
