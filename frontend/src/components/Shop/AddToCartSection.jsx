@@ -1,7 +1,12 @@
 import { MinusIcon, PlusIcon } from "@heroicons/react/24/outline";
 import Button from "../ui/Button";
 
-const ProductCTA = ({ onPlus, onMinus, selectedQuantity, onAddToCart }) => {
+const AddToCartSection = ({
+    onPlus,
+    onMinus,
+    selectedQuantity,
+    onAddToCart,
+}) => {
     return (
         <>
             <div className="flex flex-col gap-4 md:flex-row flex-wrap">
@@ -26,4 +31,4 @@ const ProductCTA = ({ onPlus, onMinus, selectedQuantity, onAddToCart }) => {
     );
 };
 
-export default ProductCTA;
+export default AddToCartSection;

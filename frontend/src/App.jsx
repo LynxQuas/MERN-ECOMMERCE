@@ -43,7 +43,14 @@ const App = () => {
                 },
                 { path: "/about", element: <About /> },
                 { path: "/contact", element: <Contact /> },
-                { path: "/wishlist", element: <Wishlist /> },
+                {
+                    path: "/wishlist",
+                    element: (
+                        <PrivateRoute requireRole="user">
+                            <Wishlist />
+                        </PrivateRoute>
+                    ),
+                },
 
                 {
                     path: "/login",
@@ -67,7 +74,7 @@ const App = () => {
         {
             path: "/admin",
             element: (
-                <PrivateRoute>
+                <PrivateRoute requireRole="admin">
                     <AdminLayout />
                 </PrivateRoute>
             ),

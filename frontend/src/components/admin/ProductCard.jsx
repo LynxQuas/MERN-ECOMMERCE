@@ -1,5 +1,5 @@
 import { MinusCircleIcon, PencilSquareIcon } from "@heroicons/react/24/outline";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUser } from "../../context/UserContext";
 
 const ProductCard = ({
@@ -9,7 +9,6 @@ const ProductCard = ({
     isFeature,
     productId,
     onDelete,
-    category,
 }) => {
     const navigate = useNavigate();
 
@@ -17,15 +16,13 @@ const ProductCard = ({
 
     return (
         <div className="flex p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
-            <Link to={`/shop/${category}/${productId}`}>
-                <div className="mr-4">
-                    <img
-                        src={imageUrl}
-                        alt="Product"
-                        className="object-cover w-28 h-28 rounded-lg"
-                    />
-                </div>
-            </Link>
+            <div className="mr-4">
+                <img
+                    src={imageUrl}
+                    alt="Product"
+                    className="object-cover w-28 h-28 rounded-lg"
+                />
+            </div>
 
             <div className="flex flex-col justify-between flex-grow shrink">
                 <div>

@@ -86,6 +86,7 @@ export const addToWishlist = async (wishlistData) => {
 };
 
 export const removeWishlistItem = async (wishlistData) => {
+    console.log(wishlistData);
     const res = await fetch(`${API}/wishlist/remove`, {
         method: "POST",
         headers: {
