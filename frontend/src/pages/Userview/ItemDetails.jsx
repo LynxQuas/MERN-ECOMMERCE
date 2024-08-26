@@ -34,15 +34,18 @@ const ItemDetails = () => {
 
     const { addToWishListMutation, removeFromWishlistMutation } = useWishlist();
     const { auth } = useUser();
+
     const { data: userWishlist = [] } = useQuery({
         queryKey: ["wishlists"],
         queryFn: () => getUserWishlist(auth?.user?._id),
+        enabled: !!auth?.user,
     });
 
     const isInWishlist = userWishlist.some((item) => item._id === product?._id);
 
     const handleAddToCart = useCallback(() => {
         if (!validateSelections()) return;
+
         const orderData = {
             productId: product._id,
             size: state.selectedSize,
@@ -58,7 +61,7 @@ const ItemDetails = () => {
         product._id,
         product.salePrice,
         product.price,
-        auth.user._id,
+        auth?.user?._id,
         validateSelections,
     ]);
 
@@ -109,17 +112,22 @@ const ItemDetails = () => {
                     sizeError={state.sizeError}
                 />
 
-                <AddToCartSection
-                    onAddToCart={handleAddToCart}
-                    onMinus={() => handleQuantityChange("decrease")}
-                    onPlus={() => handleQuantityChange("increase")}
-                    selectedQuantity={state.selectedQuantity}
-                />
+                {!auth?.user ||
+                    (auth.user.role !== "admin" && (
+                        <>
+                            <AddToCartSection
+                                onAddToCart={handleAddToCart}
+                                onMinus={() => handleQuantityChange("decrease")}
+                                onPlus={() => handleQuantityChange("increase")}
+                                selectedQuantity={state.selectedQuantity}
+                            />
 
-                <AddToWishlistSection
-                    onToggleWishlist={toggleWishlistHandler}
-                    isInWishlist={isInWishlist}
-                />
+                            <AddToWishlistSection
+                                onToggleWishlist={toggleWishlistHandler}
+                                isInWishlist={isInWishlist}
+                            />
+                        </>
+                    ))}
             </div>
         </div>
     );
