@@ -6,6 +6,7 @@ const AddToCartSection = ({
     onMinus,
     selectedQuantity,
     onAddToCart,
+    isAdding,
 }) => {
     return (
         <>
@@ -21,6 +22,7 @@ const AddToCartSection = ({
                 </div>
 
                 <Button
+                    disabled={isAdding}
                     className="hover:bg-amber-500 md:px-14 bg-amber-600 transition-colors text-white p-2 rounded-md font-semibold"
                     onClick={onAddToCart}
                 >

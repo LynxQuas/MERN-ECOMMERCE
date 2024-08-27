@@ -37,7 +37,7 @@ const userSchema = mongoose.Schema({
     cart: [
         {
             type: mongoose.Schema.ObjectId,
-            ref: "Product",
+            ref: "Order",
             default: [],
         },
     ],

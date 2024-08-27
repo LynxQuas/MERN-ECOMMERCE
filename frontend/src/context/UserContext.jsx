@@ -4,9 +4,7 @@ const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
     const [auth, setAuth] = useState(() => {
-        return localStorage.getItem("userData")
-            ? JSON.parse(localStorage.getItem("userData"))
-            : null;
+        return JSON.parse(localStorage.getItem("userData") || "null");
     });
 
     const login = (userData) => {
@@ -15,7 +13,7 @@ const UserContextProvider = ({ children }) => {
     };
 
     const logout = () => {
-        localStorage.removeItem("userData");
+        localStorage.clear("userData");
         setAuth(null);
     };
 
