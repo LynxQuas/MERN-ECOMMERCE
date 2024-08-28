@@ -5,8 +5,9 @@ import { removeCartItem, updateQuantity } from "../../libs/cart";
 import toast from "react-hot-toast";
 import { cn } from "../../utils/clsx";
 
-const CartItem = ({ data }) => {
+const CartItem = ({ data = {} }) => {
     const queryClient = useQueryClient();
+    console.log(data);
 
     const { mutate: removeCartItemMutation, isPending: isDeleting } =
         useMutation({
@@ -66,10 +67,10 @@ const CartItem = ({ data }) => {
             <img
                 className="w-28 h-28 object-cover"
                 src={data.imageUrl}
-                alt={data.productId.name}
+                alt={data?.productId?.name}
             />
             <div className="flex flex-col gap-2 grow">
-                <h3 className="font-semibold">{data.productId.name}</h3>
+                <h3 className="font-semibold">{data?.productId?.name}</h3>
                 <div className="flex gap-3 items-center">
                     <p>${data.price}</p>
                     <div
