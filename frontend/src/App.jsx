@@ -18,8 +18,6 @@ import Contact from "./pages/Userview/Contact";
 import AdminLayout from "./pages/Layouts/AdminLayout";
 import AppLayout from "./pages/Layouts/AppLayout";
 
-import Overview from "./pages/Adminviews/Overview";
-import Orders from "./pages/Adminviews/Orders";
 import Customers from "./pages/Adminviews/Customers";
 import Products from "./pages/Adminviews/Products";
 import ProductForm from "./components/admin/ProductForm";
@@ -81,10 +79,9 @@ const App = () => {
             children: [
                 {
                     index: true,
-                    element: <Navigate to="overview" replace />,
+                    element: <Navigate to="products" replace />,
                 },
-                { path: "overview", element: <Overview /> },
-                { path: "orders", element: <Orders /> },
+
                 { path: "customers", element: <Customers /> },
                 { path: "products", element: <Products /> },
                 {

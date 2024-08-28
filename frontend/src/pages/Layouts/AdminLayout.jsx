@@ -2,6 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import AdminNav from "../../components/Navigation/AdminNav";
 import { adminNav } from "../../constants";
 import NavList from "../../components/Navigation/NavList";
+import { ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 const AdminLayout = () => {
     return (
@@ -15,6 +16,7 @@ const AdminLayout = () => {
                         to="/"
                         className="text-lg font-semibold mb-10 text-indigo-700 hover:underline"
                     >
+                        <ArrowLeftIcon className="w-5 h-5 inline mx-2" />
                         Back to Home
                     </Link>
                     <NavList

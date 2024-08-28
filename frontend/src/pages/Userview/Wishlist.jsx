@@ -4,10 +4,12 @@ import { getUserWishlist } from "../../libs/user";
 import Spinner from "../../components/ui/Spinner";
 import Error from "../../components/ui/Error";
 import ProductCard from "../../components/admin/ProductCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Button from "../../components/ui/Button";
 
 const Wishlist = () => {
     const { auth } = useUser();
+    const navigate = useNavigate();
 
     const userId = auth?.user?._id;
     const {
@@ -42,7 +44,19 @@ const Wishlist = () => {
                     </Link>
                 ))}
 
-            {wishlists.length === 0 && <h1>Nothing in the List</h1>}
+            {wishlists.length === 0 && (
+                <div className="w-full h-[70vh] flex justify-center items-center flex-col gap-4">
+                    <h3 className="text-xl md:text-2xl">
+                        No item in the wishlist.
+                    </h3>
+                    <Button
+                        onClick={() => navigate("/shop")}
+                        className="bg-black text-white p-2 rounded-md"
+                    >
+                        Add new
+                    </Button>
+                </div>
+            )}
         </div>
     );
 };

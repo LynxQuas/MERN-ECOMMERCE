@@ -1,6 +1,13 @@
 import Button from "../ui/Button";
 
-const AddToWishlistSection = ({ isInWishlist, onToggleWishlist }) => {
+const AddToWishlistSection = ({
+    isInWishlist,
+    onToggleWishlist,
+    adding,
+    removing,
+}) => {
+    let buttonText = isInWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST";
+
     return (
         <Button
             onClick={onToggleWishlist}
@@ -10,7 +17,11 @@ const AddToWishlistSection = ({ isInWishlist, onToggleWishlist }) => {
                     : "bg-purple-700 hover:bg-purple-600"
             } text-white p-3 rounded-md font-semibold `}
         >
-            {isInWishlist ? "REMOVE FROM WISHLIST" : "ADD TO WISHLIST"}
+            {adding
+                ? "ADDING TO WISHLIST..."
+                : removing
+                ? "REMOVING FROM WISHLIST..."
+                : buttonText}
         </Button>
     );
 };

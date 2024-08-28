@@ -9,6 +9,7 @@ const orderRoutes = require("./routes/orderRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const DATABASE_URL = process.env.DATABASE_URL;
 
 let server;
 
@@ -24,7 +25,7 @@ app.use("/api/orders", orderRoutes);
 // connect to MongoDB
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.DATABASE_URL);
+        await mongoose.connect(DATABASE_URL);
         console.log("Database connected!");
     } catch (err) {
         console.log("Database connection failed.", err);

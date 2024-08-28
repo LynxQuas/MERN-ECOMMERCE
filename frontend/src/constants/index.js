@@ -13,9 +13,7 @@ export const categories = [
 ];
 
 export const adminNav = [
-    { name: "Overview", link: "overview" },
     { name: "Products", link: "products" },
-    { name: "Orders", link: "orders" },
     { name: "Customers", link: "customers" },
     { name: "Create Product", link: "create-product" },
 ];

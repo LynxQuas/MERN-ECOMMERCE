@@ -47,13 +47,17 @@ const Shop = () => {
         <div className="flex flex-col md:flex-row">
             <ShopCategory setProductName={setSearchProduct} />
             <Sidebar setProductName={setSearchProduct} />
-            <div className="flex flex-col gap-4 items-center justify-center">
+            <div className="flex flex-col gap-4 items-center justify-center w-full md:px-10">
                 {category === "all" && !searchProduct && <FeatureItems />}
 
                 <ItemList>
-                    {filterdProducts?.map((data) => (
-                        <ItemCard key={data._id} data={data} />
-                    ))}
+                    {filterdProducts.length !== 0 ? (
+                        filterdProducts?.map((data) => (
+                            <ItemCard key={data._id} data={data} />
+                        ))
+                    ) : (
+                        <p>No Item found.</p>
+                    )}
                 </ItemList>
             </div>
         </div>

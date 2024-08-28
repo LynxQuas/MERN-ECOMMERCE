@@ -1,7 +1,7 @@
 import { useUser } from "../../context/UserContext";
-import { useQuery } from "@tanstack/react-query";
+
 import { useNavigate } from "react-router-dom";
-import { getUserById } from "../../libs/user";
+
 import {
     UserCircleIcon,
     XMarkIcon,
@@ -17,12 +17,7 @@ const UserProfile = () => {
 
     const [showDropDown, setShowDropDown] = useState(false);
     const dropdownRef = useClickOutside(() => setShowDropDown(false));
-    const { profileImage, firstName, role } = auth.user || {};
-
-    const { data } = useQuery({
-        queryKey: ["user"],
-        queryFn: () => getUserById(auth?.user?._id),
-    });
+    const { firstName, role } = auth.user || {};
 
     return (
         <div className="relative" ref={dropdownRef}>
@@ -30,15 +25,8 @@ const UserProfile = () => {
                 className="flex items-center gap-2 cursor-pointer"
                 onClick={() => setShowDropDown((prev) => !prev)}
             >
-                {data?.profileImage ? (
-                    <img
-                        src={profileImage}
-                        alt={firstName}
-                        className="w-8 h-8 rounded-full"
-                    />
-                ) : (
-                    <UserCircleIcon className="w-8 h-8 text-gray-500" />
-                )}
+                <UserCircleIcon className="w-8 h-8 text-gray-500" />
+
                 <p className="font-medium text-gray-700">{firstName}</p>
             </div>
 

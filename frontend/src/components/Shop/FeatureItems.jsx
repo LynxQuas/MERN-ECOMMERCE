@@ -1,5 +1,5 @@
 import { ArrowLeftIcon, ArrowRightIcon } from "@heroicons/react/24/outline";
-import img1 from "../../assets/test2.jpg";
+
 import { useQuery } from "@tanstack/react-query";
 import { getAllProducts } from "../../libs/product";
 import { useState } from "react";
@@ -41,14 +41,16 @@ const FeatureItems = () => {
         return <div className="text-white">Error: {error.message}</div>;
     }
 
+    if (featureItems.length === 0) return;
+
     return (
-        <div className="relative flex flex-col items-center py-5 px-4 h-[450px] md:mx-6 overflow-hidden rounded-2xl shadow-lg bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400 w-full md:h-[600px]">
+        <div className="relative flex flex-col m-auto items-center py-5 px-4 h-[450px] md:mx-6 overflow-hidden rounded-2xl shadow-lg bg-gradient-to-r from-purple-600 via-purple-500 to-purple-400 w-[100%] md:h-[600px]">
             <div className="relative w-full h-full overflow-hidden rounded-2xl">
                 <Link
                     to={`/shop/${featureItems[featureIndex]?.category}/${featureItems[featureIndex]?._id}`}
                 >
                     <img
-                        src={featureItems[featureIndex]?.imageUrl || img1}
+                        src={featureItems[featureIndex]?.imageUrl}
                         alt="Feature item"
                         className="object-cover md:object-contain w-full h-full transition-transform duration-500 ease-in-out transform hover:scale-105 rounded-2xl"
                     />
@@ -81,7 +83,7 @@ const FeatureItems = () => {
                     ))}
                 </div>
 
-                <div className="absolute top-5 left-5 bg-red-600 p-2 rounded-full px-4 rotate-12 shadow-lg">
+                <div className="absolute top-5 left-2 bg-red-600 p-2 rounded-full px-4 -rotate-6 shadow-lg md:top-5 md:left-[30%]">
                     <span className="text-white font-semibold">
                         FEATURE ITEMS
                     </span>

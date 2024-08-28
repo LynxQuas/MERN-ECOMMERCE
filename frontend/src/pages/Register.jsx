@@ -7,7 +7,6 @@ import { register as userRegister } from "../libs/user";
 import { useForm } from "react-hook-form";
 import { useCallback, useState } from "react";
 
-import placeholderImage from "../assets/placeholder.jpg";
 import toast from "react-hot-toast";
 import Input from "../components/form/Input";
 
@@ -36,7 +35,6 @@ const Register = () => {
         (data) => {
             const updatedData = {
                 ...data,
-                profileImage: placeholderImage,
                 role: testRole,
             };
             handleRegister.mutate(updatedData);

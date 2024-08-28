@@ -34,7 +34,12 @@ const ItemDetails = () => {
         validateSelections,
     } = useProductOption();
 
-    const { addToWishListMutation, removeFromWishlistMutation } = useWishlist();
+    const {
+        addingWishlistItem,
+        removingWishlistItem,
+        addToWishListMutation,
+        removeFromWishlistMutation,
+    } = useWishlist();
     const { auth } = useUser();
 
     const { data: userWishlist = [] } = useQuery({
@@ -108,10 +113,10 @@ const ItemDetails = () => {
         );
 
     return (
-        <div className="flex flex-col md:flex-row gap-6 md:gap-12 p-6 md:p-10 bg-white rounded-lg shadow-lg">
+        <div className="flex flex-col justify-center md:flex-row gap-6 md:gap-12 p-6 md:p-20 bg-white rounded-lg shadow-lg md:m-10">
             <ProductImage src={product.imageUrl} alt={product.name} />
 
-            <div className="flex-1 flex flex-col gap-4">
+            <div className="flex-col gap-4">
                 <ProductDetails
                     name={product.name}
                     rating={product.ratings}
@@ -134,7 +139,7 @@ const ItemDetails = () => {
 
                 {!auth?.user ||
                     (auth.user.role !== "admin" && (
-                        <>
+                        <div className="flex flex-col gap-4">
                             <AddToCartSection
                                 onAddToCart={handleAddToCart}
                                 onMinus={() => handleQuantityChange("decrease")}
@@ -146,8 +151,10 @@ const ItemDetails = () => {
                             <AddToWishlistSection
                                 onToggleWishlist={toggleWishlistHandler}
                                 isInWishlist={isInWishlist}
+                                adding={addingWishlistItem}
+                                removing={removingWishlistItem}
                             />
-                        </>
+                        </div>
                     ))}
             </div>
         </div>
