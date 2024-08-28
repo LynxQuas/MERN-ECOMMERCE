@@ -1,5 +1,6 @@
 const Product = require("../models/productModel");
 const User = require("../models/userModel");
+const Order = require("../models/orderModel");
 
 const getAllProducts = async (req, res) => {
     const products = await Product.find({});
@@ -59,7 +60,11 @@ const deleteProduct = async (req, res) => {
         return res.status(404).json({ messsage: "Product does not exist." });
 
     try {
-        await Product.findByIdAndDelete(productId);
+        const product = await Product.findByIdAndDelete(productId);
+        if (!product) {
+            return res.status(404).json({ message: "Product not found." });
+        }
+        await Order.deleteMany({ "productId._id": productId });
         res.status(201).json({ message: "Product Deleted Successfully." });
     } catch (err) {
         res.status(500).json({ message: "Something went wrong." });
