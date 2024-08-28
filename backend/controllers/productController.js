@@ -64,7 +64,7 @@ const deleteProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ message: "Product not found." });
         }
-        await Order.deleteMany({ "productId._id": productId });
+        await Order.deleteMany({ productId: productId });
         res.status(201).json({ message: "Product Deleted Successfully." });
     } catch (err) {
         res.status(500).json({ message: "Something went wrong." });
