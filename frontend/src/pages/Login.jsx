@@ -15,7 +15,12 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
         reset,
-    } = useForm();
+    } = useForm({
+        defaultValues: {
+            email: "admin@test.com",
+            password: "123456",
+        },
+    });
     const [loginError, setLoginError] = useState("");
     const { login } = useUser();
 
