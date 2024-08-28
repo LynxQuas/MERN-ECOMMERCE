@@ -9,10 +9,7 @@ const getOrders = async (req, res) => {
 
 const getOrdersByUserId = async (req, res) => {
     const { userId } = req.params;
-    const orders = await Order.find({ userId }).populate(
-        "productId",
-        "name price imageUrl"
-    );
+    const orders = await Order.find({ userId });
 
     return res.status(200).json(orders);
 };
