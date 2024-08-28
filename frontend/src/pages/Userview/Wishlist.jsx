@@ -4,7 +4,7 @@ import { getUserWishlist } from "../../libs/user";
 import Spinner from "../../components/ui/Spinner";
 import Error from "../../components/ui/Error";
 import ProductCard from "../../components/admin/ProductCard";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/ui/Button";
 
 const Wishlist = () => {
@@ -13,7 +13,7 @@ const Wishlist = () => {
 
     const userId = auth?.user?._id;
     const {
-        data: wishlists,
+        data: wishlists = [],
         isLoading,
         error,
         isError,
@@ -29,19 +29,7 @@ const Wishlist = () => {
         <div className="flex flex-col gap-5">
             {wishlists.length > 0 &&
                 wishlists?.map((wishlist) => (
-                    <Link
-                        to={`/shop/${wishlist.category}/${wishlist._id}`}
-                        key={wishlist._id}
-                    >
-                        <ProductCard
-                            name={wishlist.name}
-                            price={wishlist.price}
-                            imageUrl={wishlist.imageUrl}
-                            isFeature={wishlist.isFeature}
-                            productId={wishlist._id}
-                            category={wishlist.category}
-                        />
-                    </Link>
+                    <ProductCard key={wishlist._id} product={wishlist} />
                 ))}
 
             {wishlists.length === 0 && (
@@ -53,7 +41,7 @@ const Wishlist = () => {
                         onClick={() => navigate("/shop")}
                         className="bg-black text-white p-2 rounded-md"
                     >
-                        Add new
+                        Add New
                     </Button>
                 </div>
             )}

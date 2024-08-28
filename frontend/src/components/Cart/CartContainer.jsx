@@ -34,7 +34,7 @@ const CartContainer = ({ isOpen, onClose }) => {
     return (
         <>
             {isOpen && (
-                <div className="w-[40%]">
+                <div className="w-[40%] absolute">
                     <div
                         className="fixed inset-0 bg-black opacity-50 z-40"
                         aria-hidden="true"

@@ -8,7 +8,7 @@ import Modal from "../ui/Modal";
 
 const ProductCard = ({ product }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    console.log(isModalOpen);
+
     const navigate = useNavigate();
 
     const { auth } = useUser();
@@ -33,7 +33,7 @@ const ProductCard = ({ product }) => {
             <div className="flex p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
                 <div className="mr-4">
                     <img
-                        src={product.imageUrl}
+                        src={product?.imageUrl}
                         alt="Product"
                         className="object-cover w-28 h-28 rounded-lg"
                     />
