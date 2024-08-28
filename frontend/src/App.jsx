@@ -10,11 +10,11 @@ import Error from "./components/ui/Error";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import UserContextProvider from "./context/UserContext";
-import Home from "./pages/Userview/Home";
 import Shop from "./pages/Userview/Shop";
 import ItemDetails from "./pages/Userview/ItemDetails";
-import About from "./pages/Userview/About";
-import Contact from "./pages/Userview/Contact";
+// import Home from "./pages/Userview/Home";
+// import About from "./pages/Userview/About";
+// import Contact from "./pages/Userview/Contact";
 import AdminLayout from "./pages/Layouts/AdminLayout";
 import AppLayout from "./pages/Layouts/AppLayout";
 
@@ -24,6 +24,7 @@ import ProductForm from "./components/admin/ProductForm";
 import PrivateRoute from "./pages/PrivateRoute";
 import RedirectIfAuthenticated from "./pages/RedirectIfAuthenticated";
 import Wishlist from "./pages/Userview/Wishlist";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
 const queryClient = new QueryClient();
 
@@ -32,15 +33,15 @@ const App = () => {
         {
             element: <AppLayout />,
             children: [
-                { path: "/", element: <Home /> },
+                { path: "/", element: <PlaceholderPage /> },
                 { path: "/shop", element: <Shop /> },
                 { path: "/shop/:category", element: <Shop /> },
                 {
                     path: "/shop/:category/:productId",
                     element: <ItemDetails />,
                 },
-                { path: "/about", element: <About /> },
-                { path: "/contact", element: <Contact /> },
+                { path: "/about", element: <PlaceholderPage /> },
+                { path: "/contact", element: <PlaceholderPage /> },
                 {
                     path: "/wishlist",
                     element: (
