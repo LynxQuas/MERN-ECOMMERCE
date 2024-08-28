@@ -9,6 +9,7 @@ import { useCallback, useState } from "react";
 
 import placeholderImage from "../assets/placeholder.jpg";
 import toast from "react-hot-toast";
+import Input from "../components/form/Input";
 
 const Register = () => {
     const { register, handleSubmit, getValues, formState, reset } = useForm();
@@ -81,50 +82,44 @@ const Register = () => {
                         <InputError message={errors?.lastName?.message} />
                     )}
 
-                    <input
-                        type="text"
-                        className="bg-gray-100 w-full px-4 py-3 rounded-md"
-                        placeholder="Email"
+                    <Input
+                        type="email"
                         name="email"
-                        {...register("email", {
-                            required: "Email is Required.",
-                        })}
+                        placeholder="Email"
+                        register={register}
+                        registerOptions={{
+                            required: "Email is required",
+                        }}
+                        errors={errors}
                     />
-                    {errors?.email?.message && (
-                        <InputError message={errors.email.message} />
-                    )}
 
-                    <input
+                    <Input
                         type="password"
                         placeholder="Password"
                         name="password"
-                        className="bg-gray-100 w-full px-4 py-3 rounded-md"
-                        {...register("password", {
-                            required: "Password is Required.",
+                        register={register}
+                        registerOptions={{
+                            required: "Password is required",
                             validate: (value) =>
                                 value.length >= 6 ||
                                 "Password should be at least 6 characters long.",
-                        })}
+                        }}
+                        errors={errors}
                     />
-                    {errors?.password?.message && (
-                        <InputError message={errors.password.message} />
-                    )}
 
-                    <input
+                    <Input
                         type="password"
                         placeholder="Confirm Password"
-                        className="bg-gray-100 w-full px-4 py-3 rounded-md"
                         name="confirmation"
-                        {...register("confirmation", {
-                            required: "This Field is Required.",
+                        register={register}
+                        registerOptions={{
+                            required: "Confirm your password.",
                             validate: (value) =>
                                 value === getValues().password ||
                                 "Password do not match",
-                        })}
+                        }}
+                        errors={errors}
                     />
-                    {errors?.confirmation?.message && (
-                        <InputError message={errors.confirmation.message} />
-                    )}
 
                     <div className="flex w-full justify-between gap-10">
                         <Link

@@ -52,6 +52,10 @@ const register = async (req, res) => {
         return res.status(400).json({ message: "Inputs could not be empty." });
     }
 
+    if (password !== confirmation) {
+        return res.status(400).json({ message: "Password do not match." });
+    }
+
     const userAlreadyExist = await User.findOne({ email });
 
     if (userAlreadyExist) {

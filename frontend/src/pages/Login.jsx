@@ -7,10 +7,15 @@ import { useMutation } from "@tanstack/react-query";
 import { login as fetchLogin } from "../libs/user";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import Input from "../components/form/Input";
 
 const Login = () => {
-    const { register, handleSubmit, formState, reset } = useForm();
-    const { errors } = formState;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
     const [loginError, setLoginError] = useState("");
     const { login } = useUser();
 
@@ -42,32 +47,27 @@ const Login = () => {
                     className="flex flex-col gap-6"
                     onSubmit={handleSubmit(onLogin)}
                 >
-                    <input
-                        type="text"
-                        className="bg-gray-100 w-full px-4 py-3 rounded-md"
+                    <Input
+                        type="email"
+                        name="email"
                         placeholder="Email"
-                        {...register("email", {
+                        register={register}
+                        registerOptions={{
                             required: "Email is required.",
-                        })}
+                        }}
+                        errors={errors}
                     />
-                    {errors?.email?.message && (
-                        <InputError message={errors.email.message} />
-                    )}
 
-                    <input
+                    <Input
                         type="password"
                         placeholder="Password"
-                        className="bg-gray-100 w-full px-4 py-3 rounded-md"
-                        {...register("password", {
-                            required: "Password is required.",
-                            validate: (value) =>
-                                value.length >= 6 ||
-                                "Password must be at least 6 characters.",
-                        })}
+                        register={register}
+                        registerOptions={{
+                            required: "Password is required",
+                        }}
+                        errors={errors}
+                        name="password"
                     />
-                    {errors?.password?.message && (
-                        <InputError message={errors.password.message} />
-                    )}
 
                     <div className="flex w-full justify-between gap-10">
                         <Button
