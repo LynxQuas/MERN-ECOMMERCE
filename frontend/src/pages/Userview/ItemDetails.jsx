@@ -71,6 +71,7 @@ const ItemDetails = () => {
         const orderData = {
             productId: product._id,
             imageUrl: product.imageUrl,
+            name: product.name,
             size: state.selectedSize,
             color: state.selectedColor,
             quantity: state.selectedQuantity,
@@ -85,6 +86,7 @@ const ItemDetails = () => {
         product.imageUrl,
         product.salePrice,
         product.price,
+        product.name,
         auth?.user?._id,
         validateSelections,
         mutate,
