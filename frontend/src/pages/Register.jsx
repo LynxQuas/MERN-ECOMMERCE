@@ -16,7 +16,7 @@ const Register = () => {
     const { errors } = formState;
     const navigate = useNavigate();
 
-    const testRole = "user";
+    const testRole = "admin";
 
     const handleRegister = useMutation({
         mutationFn: (data) => userRegister(data),

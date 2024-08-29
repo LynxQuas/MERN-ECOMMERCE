@@ -133,8 +133,6 @@ const addWistlist = async (req, res) => {
 
 const removeWishlistItem = async (req, res) => {
     const { productId, userId } = req.body;
-    console.log(productId, userId);
-
     try {
         const user = await User.findById(userId);
         if (!user) {

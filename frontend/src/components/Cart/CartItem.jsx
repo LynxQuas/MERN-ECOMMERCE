@@ -7,7 +7,6 @@ import { cn } from "../../utils/clsx";
 
 const CartItem = ({ data = {} }) => {
     const queryClient = useQueryClient();
-    console.log(data);
 
     const { mutate: removeCartItemMutation, isPending: isDeleting } =
         useMutation({
@@ -42,7 +41,7 @@ const CartItem = ({ data = {} }) => {
     const handleRemoveCartItem = () => {
         removeCartItemMutation({
             userId: data.userId,
-            productId: data.productId._id,
+            productId: data.productId,
         });
     };
 
@@ -118,3 +117,5 @@ const CartItem = ({ data = {} }) => {
 };
 
 export default CartItem;
+
+// Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque excepturi animi officia perferendis inventore delectus officiis molestiae error obcaecati eius quia minus eos nam neque, hic, cumque blanditiis ipsa adipisci.

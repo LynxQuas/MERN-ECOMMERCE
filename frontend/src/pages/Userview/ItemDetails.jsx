@@ -115,7 +115,7 @@ const ItemDetails = () => {
         );
 
     return (
-        <div className="flex flex-col justify-center md:flex-row gap-6 md:gap-12 p-6 md:p-20 bg-white rounded-lg shadow-lg md:m-10">
+        <div className="flex flex-col justify-center md:flex-row gap-6 md:gap-12 p-6 md:p-20  bg-white rounded-lg shadow-lg md:m-10">
             <ProductImage src={product.imageUrl} alt={product.name} />
 
             <div className="flex-col gap-4">

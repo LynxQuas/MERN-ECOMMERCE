@@ -15,10 +15,13 @@ const getOrdersByUserId = async (req, res) => {
 };
 
 const createOrder = async (req, res) => {
-    const { userId, productId, size, color, price, quantity, imageUrl } =
+    console.log(req.body);
+    const { userId, productId, size, color, price, quantity, imageUrl, name } =
         req.body;
 
-    if (!userId || !productId || !size || !color || !price || !imageUrl) {
+    if (
+        (!userId || !productId || !size || !color || !price || !imageUrl, !name)
+    ) {
         return res
             .status(400)
             .json({ message: "please check the order inputs." });
@@ -45,6 +48,7 @@ const createOrder = async (req, res) => {
             userId,
             productId,
             size,
+            name,
             color,
             price,
             status: "Pending",
